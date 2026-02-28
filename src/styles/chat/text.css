@@ -96,7 +96,8 @@
 }
 
 :root[data-theme="light"] .chat-text :where(blockquote) {
-  background: rgba(0, 0, 0, 0.03);
+  
+background: rgba(0, 0, 0, 0.03);
 }
 
 :root[data-theme="light"] .chat-text :where(blockquote blockquote) {
@@ -104,7 +105,8 @@
 }
 
 :root[data-theme="light"] .chat-text :where(blockquote blockquote blockquote) {
-  background: rgba(0, 0, 0, 0.04);
+  
+background: rgba(0, 0, 0, 0.04);
 }
 
 :root[data-theme="light"] .chat-text :where(:not(pre) > code) {
@@ -121,4 +123,31 @@
   border: none;
   border-top: 1px solid var(--border);
   margin: 1em 0;
+}
+
+/* Fix for the Prism.js language-markup */
+code.language-markup .token.punctuation {
+  color: #ccc;
+}
+
+/* Fox-specific copy button */
+.chat-text pre .fox-copy-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.chat-text pre .fox-copy-btn:hover {
+  background: var(--bg-hover);
+}
+
+.chat-text pre:hover .fox-copy-btn {
+  opacity: 1;
 }
