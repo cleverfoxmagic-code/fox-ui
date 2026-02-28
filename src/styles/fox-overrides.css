@@ -1,0 +1,109 @@
+/* ═══════════════════════════════════════════════════════════════
+   FOX MISSION CONTROL — Late Overrides
+   Imported last in styles.css so it wins over component defaults
+   without needing !important.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── 1. Animated hourglass reading/thinking indicator ──────────
+   Replaces the 3 bouncing dots (.chat-reading-indicator__dots)
+   with a compact hourglass that flips and drains orange sand.
+   ─────────────────────────────────────────────────────────────  */
+
+/* Kill original dots */
+.chat-reading-indicator__dots > span {
+  display: none;
+  animation: none;
+}
+
+/* Reshape container to host the hourglass */
+.chat-reading-indicator__dots {
+  position: relative;
+  display: block;
+  width: 18px;
+  height: 26px;
+  gap: 0;
+  align-items: unset;
+  animation: fox-hg-rotate 2.8s ease-in-out infinite;
+  filter: drop-shadow(0 0 4px rgba(245, 158, 11, 0.4));
+  flex-shrink: 0;
+}
+
+/* Hourglass outline — SVG drawn as background-image */
+.chat-reading-indicator__dots::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 26'><path d='M1,1 L17,1 L9,13 L17,25 L1,25 L9,13 Z' fill='rgba(245,158,11,0.06)' stroke='%23f59e0b' stroke-width='1.8' stroke-linejoin='round'/></svg>") center / contain no-repeat;
+}
+
+/* Sand pile (sits at the element's visual bottom).
+   Because the whole container rotates 180°, after each flip the
+   "bottom" becomes the visual top — giving us top-to-bottom drain.
+   scaleY(1→0) before flip, scaleY(0→1) after flip creates the
+   illusion of sand flowing through the hourglass waist. */
+.chat-reading-indicator__dots::after {
+  content: '';
+  position: absolute;
+  bottom: 3px;
+  left: 26%;
+  right: 26%;
+  height: 10px;
+  background: linear-gradient(to top, #f59e0b 0%, #fbbf24 60%, transparent 100%);
+  clip-path: polygon(0% 100%, 100% 100%, 50% 0%);
+  transform-origin: bottom center;
+  animation: fox-hg-sand 2.8s ease-in-out infinite;
+}
+
+/* Hourglass rotation — flips at ~43%, stays until ~92%, then loops */
+@keyframes fox-hg-rotate {
+  0%,  42% { transform: rotate(0deg);   }
+  50%, 92% { transform: rotate(180deg); }
+  100%     { transform: rotate(180deg); }
+}
+
+/* Sand:
+   Phase 1 (0-42%)  : container upright — sand grows at visual-bottom.
+   Transition 47-53%: sand hidden during the flip.
+   Phase 2 (53-92%) : container upside-down — sand "drains" from
+                       what is now the visual-top (element's bottom).
+   Transition 97-100%: hide, reset for next cycle. */
+@keyframes fox-hg-sand {
+  0%    { transform: scaleY(0.05); opacity: 0.85; }  /* just flipped — tiny trickle  */
+  40%   { transform: scaleY(1);    opacity: 1;    }  /* bottom is full              */
+  47%   { transform: scaleY(0);    opacity: 0;    }  /* hide mid-flip               */
+  53%   { transform: scaleY(1);    opacity: 1;    }  /* after flip — visually at top */
+  92%   { transform: scaleY(0.05); opacity: 0.85; }  /* almost fully drained        */
+  97%   { transform: scaleY(0);    opacity: 0;    }  /* hide before next flip       */
+  100%  { transform: scaleY(0.05); opacity: 0.85; }  /* loop                        */
+}
+
+/* Reduce motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .chat-reading-indicator__dots {
+    animation: none;
+    filter: none;
+  }
+  .chat-reading-indicator__dots::after {
+    animation: none;
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+
+/* ── 2. Streaming amber pulse ───────────────────────────────────
+   Override the streaming border pulse to use amber glow.
+   ─────────────────────────────────────────────────────────────  */
+@keyframes fox-stream-pulse {
+  0%, 100% {
+    border-color: var(--border);
+    box-shadow: none;
+  }
+  50% {
+    border-color: var(--accent);
+    box-shadow: 0 0 10px rgba(245, 158, 11, 0.15);
+  }
+}
+
+.chat-bubble.streaming {
+  animation: fox-stream-pulse 1.6s ease-in-out infinite;
+}

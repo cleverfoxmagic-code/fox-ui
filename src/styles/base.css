@@ -386,3 +386,85 @@ select {
   outline: none;
   box-shadow: var(--focus-ring);
 }
+
+/* ── Fox Mission Control — Amber theme override ── */
+:root {
+  --accent: #f59e0b;
+  --accent-hover: #fbbf24;
+  --accent-muted: #f59e0b;
+  --accent-subtle: rgba(245, 158, 11, 0.15);
+  --accent-glow: rgba(245, 158, 11, 0.25);
+  --primary: #f59e0b;
+  --ring: #f59e0b;
+  --focus: rgba(245, 158, 11, 0.25);
+  --focus-ring: 0 0 0 2px var(--bg), 0 0 0 4px var(--ring);
+  --shadow-glow: 0 0 30px var(--accent-glow);
+}
+:root[data-theme="light"] {
+  --accent: #d97706;
+  --accent-hover: #b45309;
+  --accent-subtle: rgba(217, 119, 6, 0.12);
+  --accent-glow: rgba(217, 119, 6, 0.15);
+  --primary: #d97706;
+  --ring: #d97706;
+}
+fox-app { display: block; position: relative; z-index: 1; min-height: 100vh; }
+/* ── Fox Mission Control — Amber + Warm-Grey theme override ────
+   Appended to OpenClaw base.css. Uses CSS cascade to override
+   accent colours AND softens dark backgrounds from cold near-black
+   to a warmer, slightly grey tone.
+   ──────────────────────────────────────────────────────────── */
+
+/* Dark theme (default) — warm grey backgrounds + amber accent */
+:root {
+  /* Backgrounds: warm grey instead of cold near-black */
+  --bg:           #1c1e24;
+  --bg-accent:    #1f2128;
+  --bg-elevated:  #24272f;
+  --bg-hover:     #2c303a;
+  --bg-muted:     #2c303a;
+  --card:         #20232b;
+  --sidebar:      #191c22;
+  --border:       rgba(255, 255, 255, 0.07);
+  --surface:      #252830;
+  --muted:        #71717a;
+
+  /* Amber accent */
+  --accent:           #f59e0b;
+  --accent-hover:     #fbbf24;
+  --accent-muted:     #f59e0b;
+  --accent-subtle:    rgba(245, 158, 11, 0.15);
+  --accent-foreground: #fafafa;
+  --accent-glow:      rgba(245, 158, 11, 0.25);
+  --primary:          #f59e0b;
+  --primary-foreground: #ffffff;
+  --ring:             #f59e0b;
+  --focus:            rgba(245, 158, 11, 0.25);
+  --focus-ring:       0 0 0 2px var(--bg), 0 0 0 4px var(--ring);
+  --focus-glow:       0 0 0 2px var(--bg), 0 0 0 4px var(--ring), 0 0 20px var(--accent-glow);
+  --shadow-glow:      0 0 30px var(--accent-glow);
+}
+
+/* Light theme */
+:root[data-theme="light"] {
+  --accent:           #d97706;
+  --accent-hover:     #b45309;
+  --accent-muted:     #d97706;
+  --accent-subtle:    rgba(217, 119, 6, 0.12);
+  --accent-foreground: #ffffff;
+  --accent-glow:      rgba(217, 119, 6, 0.15);
+  --primary:          #d97706;
+  --primary-foreground: #ffffff;
+  --ring:             #d97706;
+  --focus:            rgba(217, 119, 6, 0.2);
+  --focus-ring:       0 0 0 2px var(--bg), 0 0 0 4px var(--ring);
+  --focus-glow:       0 0 0 2px var(--bg), 0 0 0 4px var(--ring), 0 0 16px var(--accent-glow);
+}
+
+/* fox-app element (renamed from openclaw-app) */
+fox-app {
+  display: block;
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+}
